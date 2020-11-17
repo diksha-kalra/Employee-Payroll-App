@@ -1,3 +1,4 @@
+//event listener on salary range to display appropriate value
 const salary = document.querySelector('#salary');
 const output = document.querySelector('.salary-output');
 output.textContent = salary.value;
