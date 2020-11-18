@@ -42,6 +42,7 @@ window.addEventListener('DOMContentLoaded',(event)=>{
             dateError.textContent = e;
         }
     });
+
     const salary=document.querySelector('#salary');
     const output=document.querySelector('.salary-output');
     output.textContent=salary.value;
@@ -50,7 +51,15 @@ window.addEventListener('DOMContentLoaded',(event)=>{
     });
 });
 
-save = () => {
+const save = () => {
+    try{
+        let employeePayrollData=createEmployeePayroll();
+    }catch(e){
+        return;
+    }
+}
+
+const createEmployeePayroll=()=>{
     let employeePayrollData=new EmployeePayrollData();
     try{
         employeePayrollData.name=getInputValueById('#name');
