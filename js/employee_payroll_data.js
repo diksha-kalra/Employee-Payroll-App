@@ -1,6 +1,5 @@
 class EmployeePayrollData{
 
-//getter and setter
 get id(){return this._id;}
 set id(id){
     this._id=id;
@@ -38,14 +37,15 @@ get startDate(){return this._startDate;}
 set startDate(startDate) {
     if (startDate<= new Date())
         this._startDate = startDate;
-    else throw "Start date is incorrect";
+    else 
+        throw "Start date is incorrect";
 }
 
 //method
 toString(){
     const options={ year: 'numeric', month: 'long', day: 'numeric'};
     const empDate=(!this.startDate)?"undefined": this.startDate.toLocaleDateString("en-IN",options);
-    return " Name: "+this.name+" gender: "+this.gender+" profilePic: "+this.profilePic+
-    " department: "+this.department+" salary: "+this.salary+" startDate: "+empDate+" note: "+this.note;
+    return "Id: "+this.id+" Name: "+this.name+" Gender: "+this.gender+" ProfilePic: "+this.profilePic+
+    " Department: "+this.department+" Salary: "+this.salary+" StartDate: "+empDate+" Note: "+this.note;
 }
 }
