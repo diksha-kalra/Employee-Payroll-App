@@ -28,13 +28,13 @@ window.addEventListener('DOMContentLoaded',(event)=>{
             textError.textContent=e;
         }
     });
-
+    
     const startdate = document.querySelector("#startDate");
-    let day = document.querySelector('#day').value;
-    let month = document.querySelector('#month').value;
-    let year = document.querySelector('#year').value;
     const dateError = document.querySelector(".date-error");
-    startdate.addEventListener("input", function() {
+    startdate.addEventListener("change", function() {
+            let day = document.querySelector('#day').value;
+            let month = document.querySelector('#month').value;
+            let year = document.querySelector('#year').value;
         try {
             new EmployeePayrollData().startDate= new Date(year, month-1, day);
             dateError.textContent = "";
