@@ -65,10 +65,10 @@ function createAndUpdateStorage(employeePayrollData){
     if(employeePayrollData!=undefined){
         employeePayrollList.push(employeePayrollData);
     }else{
-        employeePayrollList=[employeePayrollData];
+        employeePayrollList=[employeePayrollData]
     }
-    alert(employeePayrollList.toString())
-    localStorage.setItem("EmployeePayrollList",JSON.stringify(employeePayrollList));
+    alert(employeePayrollList.toString());
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 
 const createEmployeePayroll=()=>{
@@ -97,6 +97,7 @@ const createEmployeePayroll=()=>{
     employeePayrollData.startDate=startDate;
     employeePayrollData.note=getInputValueById('#notes');
     alert(employeePayrollData.toString());
+    return employeePayrollData;
 }
 
 const resetForm=()=>{
