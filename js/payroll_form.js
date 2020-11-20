@@ -1,83 +1,117 @@
 let isUpdate=false;
 let employeePayrollObj={};
 
+let site_properties={
+    home_page: "../pages/home.html",
+    add_employee_payroll_page: "../pages/payrollform.html"
+};
+
 window.addEventListener('DOMContentLoaded',(event)=>{
     const name=document.querySelector('#name');
-    const textError=document.querySelector('.text-error');
     name.addEventListener('input',function(){
         if(name.value.length==0){
-            textError.textContent="";
+            setTextValue('.text-error',"");
             return;
         }
         try{
             (new EmployeePayrollData()).name=name.value;
-            textError.textContent="";
+            setTextValue('.text-error',"");
         }catch(e){
-            textError.textContent=e;
+            setTextValue('.text-error',e);
         }
     });
 
-const startdate = document.querySelector("#startDate");
-startdate.addEventListener("input", function() {
-let date = new Date(Date.parse(getInputValueById('#month') + " " + getInputValueById('#day') + " " + getInputValueById('#year')));
-    try {
-            (new EmployeePayrollData()).startDate = date;
-            setTextValue('.date-error', "");
-    } catch (e) {
-            setTextValue('.date-error', e);
+    const startdate = document.querySelector("#startDate");
+    startdate.addEventListener("input", function() {
+    let date = new Date(Date.parse(getInputValueById('#month') + " " + getInputValueById('#day') + " " + getInputValueById('#year')));
+        try {
+                (new EmployeePayrollData()).startDate = new Date(Date.parse(date));
+                setTextValue('.date-error', "");
+        } catch (e) {
+                setTextValue('.date-error', e);
         }
-});
+    });
 
-const salary=document.querySelector('#salary');
-const output=document.querySelector('.salary-output');
-output.textContent=salary.value;
-salary.addEventListener('input', function(){
+    const salary=document.querySelector('#salary');
+    const output=document.querySelector('.salary-output');
+    output.textContent=salary.value;
+    salary.addEventListener('input', function(){
     output.textContent=salary.value;
     });
 
     checkForUpdate();
 });
 
-const save = () => {
-    console.log("inside save");
+const save = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     try{
-        let employeePayrollData=createEmployeePayroll();
-        console.log(employeePayrollData);
-        createAndUpdateLocalStorage(employeePayrollData);
-        console.log("after local storage");
+        setEmployeePayrollObject();
+        createAndUpdateLocalStorage();
+        resetForm();
+        window.location.replace(site_properties.home_page);
     }catch(e){
-        console.log(e);
         return;
     }
 }
 
-function createAndUpdateLocalStorage(employeePayrollData){
+function createAndUpdateLocalStorage(){
     let employeePayrollList=JSON.parse(localStorage.getItem("EmployeePayrollList"));
     if(employeePayrollList==null){
         employeePayrollList=[];
     }
-    if(employeePayrollData!=undefined){
-        employeePayrollList.push(employeePayrollData);
+    if(employeePayrollList){
+        let employeePayrollData=employeePayrollList.find(empData=>empData._id==employeePayrollObj._id);
+        if(!employeePayrollData){
+            employeePayrollList.push(createEmployeePayrollData());
+        }else{
+            const index=employeePayrollList.map(empData=>empData._id).indexOf(employeePayrollData._id);
+            employeePayrollList.splice(index,1,createEmployeePayrollData(employeePayrollData._id));
+        }
     }else{
-        employeePayrollList=[employeePayrollData]
+        employeePayrollList=[createEmployeePayrollData()];
     }
-    alert(employeePayrollList.toString());
     localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 
-const createEmployeePayroll=()=>{
-    let employeePayrollData=new EmployeePayrollData();
-    employeePayrollData.id= createNewEmployeeId();
-    employeePayrollData.name=getInputValueById('#name');
-    employeePayrollData.profilePic=getSelectedValues('[name=profile]').pop();
-    employeePayrollData.gender=getSelectedValues('[name=gender]').pop();
-    employeePayrollData.department = getSelectedValues('[name=department]');
-    employeePayrollData.salary=getInputValueById('#salary');
+const setEmployeePayrollObject=()=>{
+    employeePayrollObj._name=getInputValueById('#name');
+    employeePayrollObj._profilePic=getSelectedValues('[name=profile]').pop();
+    employeePayrollObj._gender=getSelectedValues('[name=gender]').pop();
+    employeePayrollObj._department = getSelectedValues('[name=department]');
+    employeePayrollObj._salary=getInputValueById('#salary');
     let date = getInputValueById('#month') + " " + getInputValueById('#day') + " " + getInputValueById('#year');
-    employeePayrollData.startDate = new Date(date);
-    employeePayrollData.note=getInputValueById('#notes');
-    alert(employeePayrollData.toString());
+    employeePayrollObj._startDate = new Date(date);
+    employeePayrollObj._note=getInputValueById('#notes');
+}
+
+const createEmployeePayrollData=(id)=>{
+    let employeePayrollData=new EmployeePayrollData();
+    if(!id) employeePayrollData.id=createNewEmployeeId();
+    else employeePayrollData.id=id;
+    setEmployeePayrollData(employeePayrollData);
     return employeePayrollData;
+}
+
+const setEmployeePayrollData=(employeePayrollData)=>{
+    try{
+        employeePayrollData.name=employeePayrollObj._name;
+    }catch(e){
+        setTextValue('.text-error',e);
+        throw e;
+    }
+    employeePayrollData.profilePic=employeePayrollObj._profilePic;
+    employeePayrollData.gender=employeePayrollObj._gender;
+    employeePayrollData.department=employeePayrollObj._department;
+    employeePayrollData.salary=employeePayrollObj._salary;
+    employeePayrollData.note=employeePayrollObj._note;
+    try{
+        employeePayrollData.startDate=new Date(Date.parse(employeePayrollObj._startDate));
+    }catch(e){
+        setTextValue('.date-error',e);
+        throw e;
+    }
+    alert(employeePayrollData.toString());
 }
 
 const getInputValueById=(id)=>{
