@@ -18,6 +18,11 @@ set profilePic(profilePic){
     this._profilePic=profilePic;
 }
 
+get gender(){return this._gender;}
+set gender(gender){
+    this._gender=gender;
+}
+
 get department(){return this._department;}
 set department(department){
     this._department=department;
