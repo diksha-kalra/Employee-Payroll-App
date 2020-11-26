@@ -1,13 +1,6 @@
 let isUpdate=false;
 let employeePayrollObj={};
 
-let site_properties={
-    use_local_storage:"true",
-    home_page: "../pages/home.html",
-    add_employee_payroll_page: "../pages/payrollform.html",
-    server_url:"http://localhost:3000/EmployeePayrollDB"
-};
-
 const checkName=(name)=>{
     let nameRegex=RegExp('^[A-Z]{1}[a-zA-Z\\s]{2,}$');
     if(!nameRegex.test(name)) throw "Name is Incorrect";
