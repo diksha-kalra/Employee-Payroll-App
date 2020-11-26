@@ -37,6 +37,32 @@
       "_note": "works in sales and finance dept",
       "_profilePic": "../assets/profile-images/Ellipse -3.png",
       "id": 3
+    },
+    {
+      "_name": "Ish Kalra",
+      "_profilePic": "../assets/profile-images/Ellipse -8.png",
+      "_gender": "male",
+      "_department": [
+        "Finance",
+        "Others"
+      ],
+      "_salary": "500000",
+      "_startDate": "2020-10-31T18:30:00.000Z",
+      "_note": "handles finance",
+      "id": 4
+    },
+    {
+      "_name": "Kavita Kalra",
+      "_profilePic": "../assets/profile-images/Ellipse 1.png",
+      "_gender": "female",
+      "_department": [
+        "HR",
+        "Others"
+      ],
+      "_salary": "400000",
+      "_startDate": "2020-10-31T18:30:00.000Z",
+      "_note": "she is a house wife and HR",
+      "id": 5
     }
   ]
 }
